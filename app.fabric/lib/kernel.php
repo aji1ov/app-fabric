@@ -29,6 +29,7 @@ class Kernel
 
             static::$started = true;
 
+            static::load_vtable();
             static::load_route();
             static::run_api();
         }
@@ -52,7 +53,6 @@ class Kernel
         if(file_exists($_SERVER['DOCUMENT_ROOT'].$http_request->getRequestedPage())) return;
 
         $request = Http::createRequestViaHttpRequest($http_request);
-
         if($module = Finder::getApiModule($request))
         {
             $response = null;
@@ -128,5 +128,10 @@ class Kernel
     public static function load_route(): void
     {
         include Spl::path()->custom()->folder().'route.php';
+    }
+
+    public static function load_vtable(): void
+    {
+        include Spl::path()->custom()->folder().'vtable.php';
     }
 }
